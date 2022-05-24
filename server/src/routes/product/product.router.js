@@ -20,7 +20,7 @@ router.route("/:id")
         identifyUserRoleMiddleware("OWNER", "ADMIN", "PRODUCT"),
         param("id").trim().not().isEmpty().isInt({min: 0}),
         check("displayProduct").trim().not().isEmpty().isBoolean(),
-        check("productDescription").trim().not().isEmpty().isString(),
+        check("productDescription").trim().not().isEmpty().isString().optional(), // optional tag, just because if decided to remove the product from feed we can easily disable it
     ], updateProductController);
 
 module.exports = router;
