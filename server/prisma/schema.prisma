@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+    id    Int   @id  @default(autoincrement())
+
+    // required
+    email String @unique
+    username String
+    password String
+    role Role @default(CLIENT)
+
+    // optional
+    firstName String?
+    lastName String?
+    age Int?
+
+    // extras
+    suspended Boolean @default(false)
+
+
+    // timestamps
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("users")
+}
+
+model Product {
+    id    Int   @id  @default(autoincrement())
+
+    // relation
+    productProvider String
+    provider Provider @relation(fields: [productProvider], references: [providerName], onDelete: Cascade)
+
+    // required
+    price Float
+    quantity Int
+    productName String @unique
+    deliveryTime Int
+    category String
+    displayProduct Boolean @default(false)
+
+    // optional
+    productDescription String?
+    isRecommended Boolean?
+    confirmedBy String? //when sets the displayProduct to true here appreas the email of product team member who applied it
+
+    // timestamps
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("products")
+}
+
+model Provider {
+    id    Int   @id  @default(autoincrement())
+
+    // relation
+    products Product[]
+
+    // required
+    providerName String @unique
+    providerKey String
+    createdBy String
+
+    // timestamps
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("providers")
+}
+
+
+enum Role {
+    CLIENT
+    ADMIN
+    PRODUCT
+    SUPPORT
+    OWNER
+}

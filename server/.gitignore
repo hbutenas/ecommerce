@@ -1,0 +1,8 @@
+# Keep environment variables out of version control
+node_modules
+.env
+coverage
+prisma/migrations/migration_lock.toml
+docker-compose-yml
+/src/utils/logs
+.idea/
