@@ -10,6 +10,8 @@ const profileRouter = require("./src/routes/profile/profile.router");
 const productRouter = require("./src/routes/product/product.router");
 const providerRouter = require("./src/routes/provider/provider.router");
 const adminRouter = require("./src/routes/admin/admin.router");
+const orderRouter = require("./src/routes/order/order.router");
+const supportRouter = require("./src/routes/support/support.router");
 // packages
 const morgan = require("morgan");
 const fs = require("fs");
@@ -30,6 +32,8 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/profile", profileRouter);
 app.use("/api/v1/product", productRouter);
 app.use("/api/v1/admin", adminRouter);
+app.use("/api/v1/order", orderRouter);
+app.use("/api/v1/support", supportRouter);
 // Endpoint for providers, only for product upload from their side
 app.use("/api/v1/provider", providerRouter);
 

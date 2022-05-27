@@ -13,6 +13,9 @@ datasource db {
 model User {
     id    Int   @id  @default(autoincrement())
 
+    // relation
+    orders Order[]
+
     // required
     email String @unique
     username String
@@ -80,6 +83,29 @@ model Provider {
     @@map("providers")
 }
 
+model Order {
+    id    Int   @id  @default(autoincrement())
+
+    // relation
+    userEmail String
+    user User @relation(fields: [userEmail], references: [email])
+
+    // required
+    orderValue Float
+    productId Int[]
+    avgOrderValue Float
+    quantity Int[]
+    paymentId String
+    orderStatus OrderStatus @default(PENDING)
+
+    // optional
+    orderConfirmed Boolean? // TODO Confirmed orders goes to custom CRM. Confirmed order is with status
+    confirmedBy String?
+
+    // timestamps
+    createdAt DateTime @default(now())
+}
+
 
 enum Role {
     CLIENT
@@ -87,4 +113,12 @@ enum Role {
     PRODUCT
     SUPPORT
     OWNER
+}
+
+enum OrderStatus {
+    PENDING
+    CONFIRMED
+    IN_PROGRESS
+    DECLINED
+    DONE
 }

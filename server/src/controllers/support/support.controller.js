@@ -1,28 +1,27 @@
 const {validationResult} = require("express-validator");
 const {StatusCodes} = require("http-status-codes");
-const {createProviderService, updateUserProfileService} = require("../../services/admin/admin.service");
+const {getOrdersService, confirmOrderService} = require("../../services/support/support.service");
 
-const createProviderController = async (req, res) => {
+const getOrdersController = async (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
         return res.status(StatusCodes.BAD_REQUEST).json({errors: errors.array()});
     }
 
-    const response = await createProviderService(req);
-    res.status(StatusCodes.CREATED).json({response});
 
-};
-
-const updateUserProfileController = async (req, res) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        return res.status(StatusCodes.BAD_REQUEST).json({errors: errors.array()});
-    }
-
-    const response = await updateUserProfileService(req);
+    const response = await getOrdersService(req.query);
     res.status(StatusCodes.OK).json({response});
 };
 
-module.exports = {createProviderController, updateUserProfileController};
+const confirmOrderController = async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(StatusCodes.BAD_REQUEST).json({errors: errors.array()});
+    }
+
+    const response = await confirmOrderService(req);
+    res.status(StatusCodes.OK).json({response});
+};
+module.exports = {getOrdersController, confirmOrderController};

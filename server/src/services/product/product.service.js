@@ -27,13 +27,12 @@ const getProductsService = async () => {
 };
 
 const getSingleProductService = async (requestParams) => {
-    const {id} = requestParams;
-    const productID = parseInt(id);
+    const {id: productID} = requestParams;
 
     const product = await prisma.product.findFirst({
         where: {
             AND: {
-                id: productID,
+                id: parseInt(productID),
                 displayProduct: true
             }
         },
@@ -54,13 +53,12 @@ const getSingleProductService = async (requestParams) => {
 };
 
 const updateProductService = async (Request) => {
-    const {id} = Request.params;
+    const {id: productID} = Request.params;
     const {displayProduct, productDescription} = Request.body;
-    const productID = parseInt(id);
 
     const productExists = await prisma.product.findFirst({
         where: {
-            id: productID
+            id: parseInt(productID)
         },
     });
 
@@ -68,7 +66,7 @@ const updateProductService = async (Request) => {
 
     return await prisma.product.update({
         where: {
-            id: productID
+            id: parseInt(productID)
         },
         data: {
             displayProduct: toBoolean(displayProduct),

@@ -56,6 +56,9 @@ const loginUserService = async (Request, Response) => {
 
     if (!existingUser) throw new CustomError.BadRequest("Email address or password is incorrect");
 
+    // user account is disabled
+    if (existingUser.suspended) throw new CustomError.BadRequest("Email address or password is incorrect");
+
     // compare passwords
     const isPasswordMatching = await validatePassword(password, existingUser.password);
 
